@@ -1,50 +1,24 @@
-#include <iostream>  //Verifică dacă numărul secţiei citit de la tastatură corespunde unei secţii deja introduse
+#include <iostream>  //Sumarizeaza valori dintr-un fisier
 #include <fstream>
 
 using namespace std;
 
-int exista(int s)
-{
-   fstream fd;
-   fd.open( "fdate.txt", ios::in);
-   int sec, c1, c2;
-   int gasit = 0;
-   fd >> sec >> c1 >> c2;
-   while (fd.good())
-   {
-      // Citire valida
-      if (sec == s)
-      {
-         gasit = 1;
-         break;
-      }
-      fd >> sec >> c1 >> c2;
-   }
-   fd.close();
-   return gasit;
-}
-
 int main()
 {
    fstream fd;
-   int s, c1, c2;
-   char mesaj;
-   mesaj = 'd';
-   while (tolower(mesaj) == 'd')
+   fd.open( "fdate.txt", ios::in);
+   int s, c1, c2, n1, n2;
+   n1 = n2 = 0;
+   fd >> s >> c1 >> c2;
+   while (fd.good())
    {
-      cout << "Introduceti setul (sectie cand1 cand2): ";
-      cin >> s >> c1 >> c2;
-      if (exista(s))
-         cout << "Sectia a mai fost introdusa! " << endl;
-      else
-      {
-         fd.open( "fdate.txt", ios::app);
-         fd << s << '\t' << c1 << '\t' << c2 << endl;
-         fd.close();
-      }
-      cout << "Mai introduceti date? (d/n) ";
-      cin.ignore();
-      cin >> mesaj;
+      // Citire valida
+      n1 += c1;
+      n2 += c2;
+      //  Mai citesc un set de date
+      fd >> s >> c1 >> c2;
    }
+   fd.close();
+   cout << "n1=" << n1 << " n2=" << n2 << endl;
    return 0;
 }
